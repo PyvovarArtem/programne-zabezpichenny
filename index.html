@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Словник ІТ-сленгу</title>
+<style>
+  :root {
+    --bg: #eef1f6;
+    --card: #ffffff;
+    --ink: #1b2340;
+    --muted: #5b6482;
+    --accent: #2f4bff;
+    --mark: #ffd84d;
+    --code: #e53e5c;
+    --process: #1f9d7a;
+    --people: #b25ce0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+  }
+
+  /* ---------- Шапка (Flexbox) ---------- */
+  header {
+    background: var(--ink);
+    color: #fff;
+    padding: 40px 20px 48px;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  header h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.1;
+  }
+  header h1 span {
+    background: var(--mark);
+    color: var(--ink);
+    padding: 0 .25em;
+    border-radius: 4px;
+  }
+  header p { max-width: 380px; color: #c5cbe3; }
+
+  /* ---------- Панель керування (Flexbox) ---------- */
+  .controls {
+    max-width: 1100px;
+    margin: -24px auto 0;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .controls input {
+    flex: 1 1 240px;
+    padding: 14px 16px;
+    font-size: 1rem;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(27, 35, 64, .12);
+  }
+  .controls input:focus { outline: none; border-color: var(--accent); }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filters button {
+    padding: 12px 18px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .filters button:hover { background: #fff; }
+  .filters button.active { background: var(--ink); color: #fff; }
+  .filters button:focus-visible,
+  .controls input:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+  /* ---------- Сітка карток (Grid) ---------- */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px 56px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 22px;
+    border-top: 6px solid var(--c);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .card[data-cat="code"]    { --c: var(--code); }
+  .card[data-cat="process"] { --c: var(--process); }
+  .card[data-cat="people"]  { --c: var(--people); }
+
+  .card h2 { font-size: 1.6rem; line-height: 1.15; }
+  .origin { color: var(--muted); font-size: .9rem; font-style: italic; }
+  .tag {
+    align-self: flex-start;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--c);
+    border: 1.5px solid var(--c);
+    border-radius: 6px;
+    padding: 1px 8px;
+  }
+  .example {
+    margin-top: auto;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-left: 4px solid var(--mark);
+    border-radius: 0 8px 8px 0;
+    font-size: .93rem;
+  }
+  .empty { display: none; text-align: center; color: var(--muted); padding: 40px 0; }
+
+  footer {
+    text-align: center;
+    padding: 24px 20px;
+    color: var(--muted);
+    font-size: .9rem;
+    border-top: 1px solid #d5dae8;
+  }
+
+  /* ---------- Адаптивність ---------- */
+  @media (max-width: 600px) {
+    header { padding: 28px 16px 40px; }
+    .header-inner { flex-direction: column; align-items: flex-start; }
+    .grid { grid-template-columns: 1fr; }
+    .filters button { flex: 1 1 auto; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Словник <span>ІТ-сленгу</span></h1>
+    <p>Дванадцять слів, які ви почуєте в будь-якій команді розробників, — із поясненням і прикладом.</p>
+  </div>
+</header>
+
+<section class="controls" aria-label="Пошук і фільтри">
+  <input type="search" id="search" placeholder="Знайти термін…" aria-label="Пошук терміна">
+  <div class="filters" id="filters">
+    <button class="active" data-filter="all">Усі</button>
+    <button data-filter="code">Код</button>
+    <button data-filter="process">Процеси</button>
+    <button data-filter="people">Люди</button>
+  </div>
+</section>
+
+<main>
+  <div class="grid" id="grid">
+
+    <article class="card" data-cat="code">
+      <span class="tag">Код</span>
+      <h2>Баг</h2>
+      <p class="origin">від англ. bug — «жук»</p>
+      <p>Помилка в програмі, через яку вона працює не так, як задумано.</p>
+      <p class="example">«Кнопка оплати не натискається — схоже, свіжий баг».</p>
+    </article>
+
+    <article class="card" data-cat="code">
+      <span class="tag">Код</span>
+      <h2>Фіча</h2>
+      <p class="origin">від англ. feature — «функція»</p>
+      <p>Окрема можливість продукту. Жартома: баг, який вирішили залишити.</p>
+      <p class="example">«Темна тема — найочікуваніша фіча наступного релізу».</p>
+    </article>
+
+    <article class="card" data-cat="code">
+      <span class="tag">Код</span>
+      <h2>Костиль</h2>
+      <p class="origin">українське слово в новому значенні</p>
+      <p>Швидке, але негарне рішення, яке працює, проте його страшно чіпати.</p>
+      <p class="example">«Поки що зробив костиль, після дедлайну перепишемо».</p>
+    </article>
+
+    <article class="card" data-cat="code">
+      <span class="tag">Код</span>
+      <h2>Легасі</h2>
+      <p class="origin">від англ. legacy — «спадщина»</p>
+      <p>Старий код, який дістався у спадок, без документації й зазвичай без тестів.</p>
+      <p class="example">«Цей модуль — легасі ще з 2012 року».</p>
+    </article>
+
+    <article class="card" data-cat="code">
+      <span class="tag">Код</span>
+      <h2>Рефакторинг</h2>
+      <p class="origin">від англ. refactoring</p>
+      <p>Покращення будови коду без зміни того, що він робить.</p>
+      <p class="example">«Вихідні пішли на рефакторинг — функціонал той самий, код чистіший».</p>
+    </article>
+
+    <article class="card" data-cat="code">
+      <span class="tag">Код</span>
+      <h2>Мерджити</h2>
+      <p class="origin">від англ. merge — «зливати»</p>
+      <p>Об'єднувати зміни з однієї гілки репозиторію в іншу.</p>
+      <p class="example">«Я змерджив твою гілку в main».</p>
+    </article>
+
+    <article class="card" data-cat="process">
+      <span class="tag">Процеси</span>
+      <h2>Деплой</h2>
+      <p class="origin">від англ. deploy — «розгортати»</p>
+      <p>Публікація нової версії програми на сервері, щоб нею могли користуватися.</p>
+      <p class="example">«Деплой о 18:00, не пишіть у цей час у main».</p>
+    </article>
+
+    <article class="card" data-cat="process">
+      <span class="tag">Процеси</span>
+      <h2>Дедлайн</h2>
+      <p class="origin">від англ. deadline — «крайній термін»</p>
+      <p>Дата, до якої завдання має бути готове.</p>
+      <p class="example">«Дедлайн у п'ятницю, а тестів ще немає».</p>
+    </article>
+
+    <article class="card" data-cat="process">
+      <span class="tag">Процеси</span>
+      <h2>Стендап</h2>
+      <p class="origin">від англ. stand-up</p>
+      <p>Коротка щоденна нарада команди: що зроблено, що в планах, що заважає.</p>
+      <p class="example">«Стендап о 10:00, не запізнюйся».</p>
+    </article>
+
+    <article class="card" data-cat="process">
+      <span class="tag">Процеси</span>
+      <h2>Хотфікс</h2>
+      <p class="origin">від англ. hotfix — «гаряче виправлення»</p>
+      <p>Термінове виправлення критичної помилки, яке випускають поза планом.</p>
+      <p class="example">«Сайт упав — робимо хотфікс просто зараз».</p>
+    </article>
+
+    <article class="card" data-cat="people">
+      <span class="tag">Люди</span>
+      <h2>Джун</h2>
+      <p class="origin">від англ. junior — «молодший»</p>
+      <p>Початківець у професії, зазвичай із досвідом до року.</p>
+      <p class="example">«У нас у команді двоє джунів, їм потрібен ментор».</p>
+    </article>
+
+    <article class="card" data-cat="people">
+      <span class="tag">Люди</span>
+      <h2>Сіньйор</h2>
+      <p class="origin">від англ. senior — «старший»</p>
+      <p>Досвідчений розробник, який ухвалює архітектурні рішення й допомагає іншим.</p>
+      <p class="example">«Спитай у сіньйора, він такий баг уже бачив».</p>
+    </article>
+
+  </div>
+  <p class="empty" id="empty">Нічого не знайдено. Спробуйте інше слово.</p>
+</main>
+
+<footer>Практична робота №7 · Технології розробки програмного забезпечення</footer>
+
+<script>
+  const cards = document.querySelectorAll('.card');
+  const search = document.getElementById('search');
+  const filters = document.getElementById('filters');
+  const empty = document.getElementById('empty');
+  let category = 'all';
+
+  function update() {
+    const q = search.value.trim().toLowerCase();
+    let shown = 0;
+    cards.forEach(card => {
+      const okCat = category === 'all' || card.dataset.cat === category;
+      const okText = card.textContent.toLowerCase().includes(q);
+      card.style.display = okCat && okText ? '' : 'none';
+      if (okCat && okText) shown++;
+    });
+    empty.style.display = shown ? 'none' : 'block';
+  }
+
+  search.addEventListener('input', update);
+  filters.addEventListener('click', e => {
+    if (e.target.tagName !== 'BUTTON') return;
+    filters.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    category = e.target.dataset.filter;
+    update();
+  });
+</script>
+</body>
+</html>
