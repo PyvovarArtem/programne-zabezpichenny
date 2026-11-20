@@ -1,1 +1,0 @@
-# programne-zabezpichenny
